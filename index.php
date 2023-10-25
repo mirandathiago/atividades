@@ -1,32 +1,17 @@
 <?php
 require_once "./vendor/autoload.php";
+require_once "./config.php";
+require_once "./app/Core/Helpers.php";
 
-$config = [];
-$config["controller"] = "\\Ifba\\Controller\\";
 
+use Ifba\Core\Router;
 
 $url = $_GET["url"] ?? "/";
 
-$rotas = [
-    "/" => ["IndexController","index"], 
-    "__erro404" => ["ErroController","erro404"]   
-];
+
+require_once "./app/routes.php";
+Router::run($url);
 
 
-if( key_exists($url,$rotas) ){
-    [$controller,$metodo] = $rotas[$url];
-    
-    carregarController($controller,$metodo);
-
-}else{
-    [$controller,$metodo] = $rotas["__erro404"];
-    carregarController($controller,$metodo);
-}
 
 
-function carregarController(string $controller,string $metodo){
-    global $config;
-    $controller =  $config["controller"].$controller;
-    $c = new $controller();
-    call_user_func_array([$c,$metodo],[]);
-}
