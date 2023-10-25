@@ -1,16 +1,23 @@
 <?php
-
 require_once "./vendor/autoload.php";
+
+use Ifba\Controller\ErroController;
+use Ifba\Controller\IndexController;
+
+
 
 
 $url = $_GET["url"] ?? "/";
 
 
+
 switch($url){
     case "/":
-        echo "Inicial";
+      $controller = new IndexController();
+      $controller->index();
     break;
     default:
-        echo "Página Não Encontrada";
+      $controller = new ErroController();
+      $controller->erro404();
     
 }
